@@ -1,6 +1,3 @@
-arch:
-  - amd64
-  - ppc64le
 language: java
 branches:
   only:
@@ -17,29 +14,47 @@ jobs:
   include:
     - stage: test
       name: "OpenJDK 8"
+      arch: 
+        - amd64
+        - ppc64le
       jdk: openjdk8
       script: mvn -q clean verify -B
       install: . ./install-jdk.sh --url "https://api.adoptopenjdk.net/v2/binary/releases/openjdk8?openjdk_impl=hotspot&os=linux&type=jdk&release=latest&heap_size=normal&arch=x64"
     - if: type != pull_request
       name: "OpenJDK 11"
+      arch: 
+        - amd64
+        - ppc64le
       jdk: openjdk11
       script: mvn -q clean verify -B
     - if: type != pull_request
       name: "OpenJDK 8 / native transport"
+      arch: 
+        - amd64
+        - ppc64le
       jdk: openjdk8
       script: mvn -q clean verify -B -PtestNativeTransport
       install: . ./install-jdk.sh --url "https://api.adoptopenjdk.net/v2/binary/releases/openjdk8?openjdk_impl=hotspot&os=linux&type=jdk&release=latest&heap_size=normal&arch=x64"
     - if: type != pull_request
       name: "OpenJDK 8 / domain sockets"
+      arch: 
+        - amd64
+        - ppc64le
       jdk: openjdk8
       script: mvn -q clean verify -B -PtestDomainSockets
       install: . ./install-jdk.sh --url "https://api.adoptopenjdk.net/v2/binary/releases/openjdk8?openjdk_impl=hotspot&os=linux&type=jdk&release=latest&heap_size=normal&arch=x64"
     - stage: test
       name: "OpenJDK 8 / ALPN agent"
+      arch: 
+        - amd64
+        - ppc64le
       jdk: openjdk8
       script: mvn -q clean verify -B -Dtest=Http*TLSTest
     - stage: deploy
       name: "Deploy to Sonatype's snapshots repository"
+      arch: 
+        - amd64
+        - ppc64le
       jdk: openjdk8
       if: type != pull_request AND env(SONATYPE_NEXUS_USERNAME) IS present
       script: bash .travis.deploy.artifacts.sh
